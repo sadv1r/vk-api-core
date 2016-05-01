@@ -17,7 +17,7 @@ import java.sql.Timestamp
  * @property id идентификатор записи.
  * @property ownerId идентификатор владельца стены, на которой размещена запись.
  * @property fromId идентификатор автора записи.
- * @property date время публикации записи в формате <b>unixtime</b>.
+ * @property date время публикации записи в формате *unixtime*.
  * @property text текст записи.
  * @property replyOwnerId идентификатор владельца записи, в ответ на которую была оставлена текущая.
  * @property replyPostId идентификатор записи, в ответ на которую была оставлена текущая.

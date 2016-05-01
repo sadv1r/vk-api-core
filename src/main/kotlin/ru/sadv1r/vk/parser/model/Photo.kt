@@ -21,7 +21,7 @@ import java.sql.Timestamp
  *           Идентификатор пользователя, загрузившего фото (если фотография размещена в сообществе).
  *           Для фотографий, размещенных от имени сообщества, user_id=100
  * @property text текст описания фотографии
- * @property date дата добавления в формате <b>unixtime</b>
+ * @property date дата добавления в формате *unixtime*
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Photo(
