@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @author sadv1r
  * @version 0.1
  * @since 0.1
+ * @see <a href="https://vk.com/dev/errors">https://vk.com/dev/errors</a>
  */
 data class Error(
         @JsonProperty("error_code")
