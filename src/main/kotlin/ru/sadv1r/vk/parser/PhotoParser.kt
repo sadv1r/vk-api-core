@@ -8,6 +8,8 @@ import ru.sadv1r.vk.parser.model.Album
 import ru.sadv1r.vk.parser.model.Photo
 
 /**
+ * Парсер фотографий и альбомов Вконтакте
+ *
  * Created on 4/3/16.
  *
  * @author sadv1r

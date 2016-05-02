@@ -8,6 +8,8 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
+ * Кастомный десериализатор Unix Timestamp
+ *
  * Created on 4/3/16.
  *
  * @author sadv1r

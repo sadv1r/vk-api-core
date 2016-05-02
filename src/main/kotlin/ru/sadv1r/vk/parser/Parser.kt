@@ -9,6 +9,8 @@ import ru.sadv1r.vk.parser.model.Error
 import java.net.URL
 
 /**
+ * Базовый класс для всех парсеров Вконтакте
+ *
  * Created on 4/3/16.
  *
  * @author sadv1r
