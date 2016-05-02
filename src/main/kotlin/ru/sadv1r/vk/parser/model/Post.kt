@@ -49,33 +49,33 @@ import java.sql.Timestamp
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Post(
-        var id: Int = 0,
+        var id: Int,
         @JsonProperty("owner_id")
-        var ownerId: Int = 0,
+        var ownerId: Int,
         @JsonProperty("from_id")
-        var fromId: Int = 0,
+        var fromId: Int,
         @JsonDeserialize(using = UnixTimestampDeserializer::class)
-        var date: Timestamp = Timestamp(0),
+        var date: Timestamp,
         var text: String = "",
         @JsonProperty("reply_owner_id")
-        var replyOwnerId: Int = 0,
+        var replyOwnerId: Int,
         @JsonProperty("reply_post_id")
-        var replyPostId: Int = 0,
+        var replyPostId: Int,
         @JsonProperty("friends_only")
-        var friendsOnly: Int = 0,
+        var friendsOnly: Int,
         var comments: Comments,
         var likes: Likes,
         var reposts: Reposts,
         @JsonProperty("post_type")
         var type: Type,
         @JsonProperty("post_source")
-        var source: Source,
-        var attachments: List<Attachment>,
-        var geo: Geo,
+        var source: Source?,
+        //var attachments: List<Attachment>, FIXME
+        var geo: Geo?,
         @JsonProperty("signer_id")
-        var signerId: Int = 0,
+        var signerId: Int,
         @JsonProperty("copy_history")
-        var copyHistory: Any, //FIXME разобраться с форматом
+        var copyHistory: Any?, //FIXME разобраться с форматом
         @JsonProperty("can_pin")
         var canPin: Boolean,
         @JsonProperty("can_delete")
@@ -129,7 +129,14 @@ data class Post(
 
     //FIXME у вк в нижнем регистре
     enum class Type {
-        POST, COPY, POSTPONE, SUGGEST
+        @JsonProperty("post")
+        POST,
+        @JsonProperty("copy")
+        COPY,
+        @JsonProperty("postpone")
+        POSTPONE,
+        @JsonProperty("suggest")
+        SUGGEST
     }
 
     //TODO написать класс
