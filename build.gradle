@@ -27,6 +27,7 @@ apply plugin: 'kotlin'
 apply plugin: 'idea'
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'org.ajoberstar.github-pages'
+apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.5
 
@@ -63,5 +64,13 @@ githubPages {
     pages {
         from 'build/dokka/vk-parser'
         from 'build/dokka/style.css'
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
     }
 }
