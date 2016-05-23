@@ -3,9 +3,7 @@ package ru.sadv1r.vk.parser
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import org.apache.log4j.Logger
-import ru.sadv1r.vk.parser.model.Album
-import ru.sadv1r.vk.parser.model.Photo
+import org.slf4j.LoggerFactory
 import ru.sadv1r.vk.parser.model.Profile
 
 /**
@@ -17,7 +15,7 @@ import ru.sadv1r.vk.parser.model.Profile
  * @version 0.1
  */
 class ProfileParser: Parser() {
-    val logger = Logger.getLogger("ru.sadv1r.vk.monitoring")
+    private val logger = LoggerFactory.getLogger(ProfileParser::class.java)
 
     /**
      * Получает профиль пользователя
@@ -44,7 +42,7 @@ class ProfileParser: Parser() {
         val result: Profile = jacksonObjectMapper()
                 .readValue(jsonNode.get("response").get(0).toString())
 
-        logger.trace("Получен профиль: $result")
+        logger.trace("Получен профиль: {}", result)
 
         return result
     }
@@ -72,7 +70,7 @@ class ProfileParser: Parser() {
         val result: List<Profile> = jacksonObjectMapper()
                 .readValue(jsonNode.get("response").toString())
 
-        logger.trace("Получен профиль: $result")
+        logger.trace("Получен профиль: {}", result)
 
         return result
     }

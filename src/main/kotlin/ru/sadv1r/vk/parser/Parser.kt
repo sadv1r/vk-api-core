@@ -3,6 +3,7 @@ package ru.sadv1r.vk.parser
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import org.slf4j.LoggerFactory
 import ru.sadv1r.vk.parser.exceptions.AccessDeniedException
 import ru.sadv1r.vk.parser.exceptions.VkException
 import ru.sadv1r.vk.parser.model.Error
@@ -17,6 +18,7 @@ import java.net.URL
  * @version 0.1
  */
 abstract class Parser {
+    private val logger = LoggerFactory.getLogger(Parser::class.java)
     val baseApiUrl: String = "https://api.vk.com/method/"
     val version: String = "5.24"
     val lang: String = "ru"
@@ -43,6 +45,7 @@ abstract class Parser {
         val apiUrlString = apiUrlTemplate(method, args)
         val apiUrl = URL(apiUrlString)
         val responseTree = jacksonObjectMapper().readTree(apiUrl)
+        logger.trace("Ответ от VK API получен")
 
         if (responseTree.has("error")) {
             val error: Error = jacksonObjectMapper().readValue(responseTree.get("error").toString())
