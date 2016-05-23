@@ -30,10 +30,12 @@ class ProfileParser: Parser() {
 
         val responseTree = getResponseTree(methodName, "&user_ids=$vkId")
 
-        return getProfile(responseTree)
+        //return getProfile(responseTree)
+        return getProfiles(responseTree).first()
     }
 
     /**
+     * @deprecated метод [getProfile] теперь обращается к [getProfiles] и берет первое значение
      * @param jsonNode
      *        {@code JsonNode} с деревом ответа метода Вконтакте [users.get][getProfile]
      * @return профиль пользователя
