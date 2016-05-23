@@ -47,4 +47,31 @@ class ProfileParser: Parser() {
         return result
     }
 
+    /**
+     * Получает профили пользователей
+     *
+     * @param vkId id пользователя Вконтакте
+     * @return {@code List} профилей пользователей
+     */
+    fun getProfile(vkId: Array<Int>): List<Profile> {
+        val methodName = "users.get"
+
+        val responseTree = getResponseTree(methodName, "&user_ids=${vkId.joinToString(",")}")
+
+        return getProfiles(responseTree)
+    }
+
+    /**
+     * @param jsonNode
+     *        {@code JsonNode} с деревом ответа метода Вконтакте [users.get][getProfile]
+     * @return {@code List} профилей пользователей
+     */
+    private fun getProfiles(jsonNode: JsonNode): List<Profile> {
+        val result: List<Profile> = jacksonObjectMapper()
+                .readValue(jsonNode.get("response").toString())
+
+        logger.trace("Получен профиль: $result")
+
+        return result
+    }
 }
