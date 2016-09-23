@@ -53,7 +53,7 @@ class ProfileParser: Parser() {
      * @param vkId id пользователя Вконтакте
      * @return {@code List} профилей пользователей
      */
-    fun getProfile(vkId: Array<Int>): List<Profile> {
+    fun getProfile(vkId: List<Int>): List<Profile> {
         val methodName = "users.get"
 
         val responseTree = getResponseTree(methodName, "&user_ids=${vkId.joinToString(",")}")
