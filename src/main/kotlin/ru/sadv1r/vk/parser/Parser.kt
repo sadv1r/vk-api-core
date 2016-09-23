@@ -7,6 +7,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import org.slf4j.LoggerFactory
 import ru.sadv1r.vk.parser.exceptions.AccessDeniedException
 import ru.sadv1r.vk.parser.exceptions.VkException
+import ru.sadv1r.vk.parser.exceptions.WrongScreenNameException
 import ru.sadv1r.vk.parser.model.Error
 import java.net.URL
 
@@ -67,6 +68,8 @@ abstract class Parser {
     fun errorHandler(error: Error) {
         if (error.errorCode == 15)
             throw AccessDeniedException(error.errorMsg)
+        if (error.errorCode == 113)
+            throw WrongScreenNameException(error.errorMsg)
         else
             throw VkException()
     }
