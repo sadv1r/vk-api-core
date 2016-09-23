@@ -1,6 +1,7 @@
 package ru.sadv1r.vk.parser
 
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
@@ -26,6 +27,11 @@ class ParserTest {
 
     @Test
     fun resolveScreenName() {
-        println(parser.resolveScreenName("sadv1r"))
+        val expectedType = Parser.ResolveScreenNameResult.Type.USER
+        val expectedId = 9313032
+
+        val resolveScreenNameResult: Parser.ResolveScreenNameResult = parser.resolveScreenName("sadv1r")
+        Assert.assertEquals("URL без параметров составлен не верно", expectedType, resolveScreenNameResult.type)
+        Assert.assertEquals("URL без параметров составлен не верно", expectedId, resolveScreenNameResult.objectId)
     }
 }
