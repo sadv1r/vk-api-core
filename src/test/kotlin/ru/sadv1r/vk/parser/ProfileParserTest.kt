@@ -1,23 +1,18 @@
 package ru.sadv1r.vk.parser
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-
-import org.junit.Assert.*
 //import org.junit.runner.RunWith
 //import org.mockito.Mockito
 //import org.powermock.api.mockito.PowerMockito
 //import org.powermock.core.classloader.annotations.PrepareForTest
 //import org.powermock.modules.junit4.PowerMockRunner
-import ru.sadv1r.vk.parser.model.Error
-import ru.sadv1r.vk.parser.exceptions.AccessDeniedException
-import ru.sadv1r.vk.parser.model.Album
-import ru.sadv1r.vk.parser.model.Photo
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
+import org.junit.Before
+import org.junit.Test
 import ru.sadv1r.vk.parser.model.Profile
-import java.sql.Timestamp
 import java.util.*
 import kotlin.reflect.functions
 import kotlin.reflect.jvm.isAccessible
