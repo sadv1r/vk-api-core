@@ -185,11 +185,11 @@ import java.sql.Timestamp
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Profile(
-        val id: Int,
+        val id: Int = 0,
         @JsonProperty("first_name")
-        val firstName: String,
+        val firstName: String = "",
         @JsonProperty("last_name")
-        val lastName: String,
+        val lastName: String = "",
         val deactivated: Deactivated? = null,
         val hidden: Boolean? = null,
         @JsonProperty("photo_id")
