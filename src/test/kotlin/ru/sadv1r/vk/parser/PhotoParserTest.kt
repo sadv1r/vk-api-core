@@ -146,18 +146,4 @@ class PhotoParserTest {
     fun getResponseTree1() {
 
     }
-
-    //FIXME! Тест не проверяет сообщение ошибки. Проблема с ExpectedException Rule (возможно, ExpectedException не понимает Kotlin класс)
-    @Test(expected = AccessDeniedException::class)
-    fun errorHandler() {
-        val params = ArrayList<Error.Param>()
-        params.add(Error.Param("oauth", "1"))
-        params.add(Error.Param("method", "photos.getAlbums"))
-        params.add(Error.Param("parameter1", "value1"))
-        params.add(Error.Param("parameter2", "value2"))
-        val error = Error(15, "Access denied: user is deactivated", params)
-
-        photoParser.errorHandler(error)
-    }
-
 }
