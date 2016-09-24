@@ -14,7 +14,7 @@ import ru.sadv1r.vk.parser.model.Profile
  * @author sadv1r
  * @version 0.1
  */
-class ProfileParser: Parser() {
+class ProfileParser : Parser() {
     private val logger = LoggerFactory.getLogger(ProfileParser::class.java)
 
     /**
@@ -61,8 +61,8 @@ class ProfileParser: Parser() {
         val friendsListSize = vkId.size
         for (offset in 0..friendsListSize step maximumFriendsOnRequest) {
             val responseTree = getResponseTree(methodName, "&fields=$fields&user_ids=${
-                    vkId.subList(offset,if (friendsListSize > offset + maximumFriendsOnRequest)
-                        offset + maximumFriendsOnRequest else friendsListSize).joinToString(",")}")
+            vkId.subList(offset, if (friendsListSize > offset + maximumFriendsOnRequest)
+                offset + maximumFriendsOnRequest else friendsListSize).joinToString(",")}")
             result.addAll(getProfiles(responseTree))
         }
 
