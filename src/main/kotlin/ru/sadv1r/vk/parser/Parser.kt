@@ -58,6 +58,32 @@ abstract class Parser {
     }
 
     /**
+     * Получает дерево с ответом API Вконтакте
+     *
+     * @param method название метода API Вконтакте
+     * @param args аргументы для запроса к методу API Вконтакте
+     * @return {@code JsonNode} с деревом ответа
+     */
+    fun getResponseTree(method: String, args: Map<String, Any?>): JsonNode {
+        fun paramGen(map: Map<String, Any?>): String = map
+                .filterValues { it != null }
+                .asSequence()
+                .joinToString("") { "&${it.key}=${it.value}" }
+
+        val apiUrlString = apiUrlTemplate(method, paramGen(args))
+        val apiUrl = URL(apiUrlString)
+        val responseTree = jacksonObjectMapper().readTree(apiUrl)
+        logger.trace("Ответ от VK API получен")
+
+        if (responseTree.has("error")) {
+            val error: Error = jacksonObjectMapper().readValue(responseTree.get("error").toString())
+            errorHandler(error)
+        }
+
+        return responseTree
+    }
+
+    /**
      * Обработчик ошибок Вконтакте
      *
      * Бросает исключение, соответствующее ошибке Вконтакте
