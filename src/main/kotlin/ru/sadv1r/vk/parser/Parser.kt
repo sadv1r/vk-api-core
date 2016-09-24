@@ -70,17 +70,7 @@ abstract class Parser {
                 .asSequence()
                 .joinToString("") { "&${it.key}=${it.value}" }
 
-        val apiUrlString = apiUrlTemplate(method, paramGen(args))
-        val apiUrl = URL(apiUrlString)
-        val responseTree = jacksonObjectMapper().readTree(apiUrl)
-        logger.trace("Ответ от VK API получен")
-
-        if (responseTree.has("error")) {
-            val error: Error = jacksonObjectMapper().readValue(responseTree.get("error").toString())
-            errorHandler(error)
-        }
-
-        return responseTree
+        return getResponseTree(method, paramGen(args))
     }
 
     /**
