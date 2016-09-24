@@ -53,12 +53,20 @@ class ProfileParser: Parser() {
      * @param vkId id пользователя Вконтакте
      * @return {@code List} профилей пользователей
      */
-    fun getProfile(vkId: List<Int>): List<Profile> {
+    fun getProfile(vkId: List<Int>, fields: String = ""): List<Profile> {
         val methodName = "users.get"
+        val maximumFriendsOnRequest = 400
+        val result: MutableList<Profile> = mutableListOf()
 
-        val responseTree = getResponseTree(methodName, "&user_ids=${vkId.joinToString(",")}")
+        val friendsListSize = vkId.size
+        for (offset in 0..friendsListSize step maximumFriendsOnRequest) {
+            val responseTree = getResponseTree(methodName, "&fields=$fields&user_ids=${
+                    vkId.subList(offset,if (friendsListSize > offset + maximumFriendsOnRequest)
+                        offset + maximumFriendsOnRequest else friendsListSize).joinToString(",")}")
+            result.addAll(getProfiles(responseTree))
+        }
 
-        return getProfiles(responseTree)
+        return result
     }
 
     /**
