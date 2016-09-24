@@ -159,14 +159,4 @@ class ProfileParserTest {
         assertEquals(expected.lastName, getProfileResult.lastName)
         assertEquals(expected.deactivated, getProfileResult.deactivated)
     }
-
-    //TODO Переписать на тест через искусственный JsonNode
-    @Test
-    fun getFriends() {
-        val expected: List<Int> = listOf(2,5)
-
-        val getFriendsResult = profileParser.getFriends(1, 2)
-
-        assertEquals(expected, getFriendsResult)
-    }
 }

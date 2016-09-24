@@ -82,32 +82,4 @@ class ProfileParser : Parser() {
 
         return result
     }
-
-    /**
-     * Получает друзей пользователя
-     *
-     * @param vkId id пользователя Вконтакте
-     * @return {@code List} друзей пользователя
-     */
-    fun getFriends(vkId: Int, count: Int? = null): List<Int> {
-        val methodName = "friends.get"
-
-        val responseTree = getResponseTree(methodName, "&user_id=$vkId${if (count != null) "&count=$count" else ""}")   //FIXME поправить
-
-        return getFriends(responseTree)
-    }
-
-    /**
-     * @param jsonNode
-     *        {@code JsonNode} с деревом ответа метода Вконтакте [friends.get][getFriends]
-     * @return {@code List} друзей пользователя
-     */
-    private fun getFriends(jsonNode: JsonNode): List<Int> {
-        val result: List<Int> = jacksonObjectMapper()
-                .readValue(jsonNode.get("response").get("items").toString())
-
-        logger.trace("Получен профиль: {}", result)
-
-        return result
-    }
 }
