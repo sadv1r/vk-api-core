@@ -14,7 +14,7 @@ import ru.sadv1r.vk.parser.model.Profile
  * @author sadv1r
  * @version 0.1
  */
-class FriendsParser : Parser() {
+class FriendsParser(accessToken: String? = null) : Parser(accessToken) {
     private val logger = LoggerFactory.getLogger(ProfileParser::class.java)
 
     /**

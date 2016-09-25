@@ -14,12 +14,13 @@ import java.net.URL
 /**
  * Базовый класс для всех парсеров Вконтакте
  *
+ * @param accessToken ключ доступа.
  * Created on 4/3/16.
  *
  * @author sadv1r
  * @version 0.1
  */
-abstract class Parser {
+abstract class Parser(val accessToken: String? = null) {
     private val logger = LoggerFactory.getLogger(Parser::class.java)
     val baseApiUrl: String = "https://api.vk.com/method/"
     val version: String = "5.24"
@@ -32,9 +33,9 @@ abstract class Parser {
      * @param args аргументы для запроса к методу API Вконтакте
      * @return шаблон URL адреса
      */
-    fun apiUrlTemplate(method: String, args: String = ""): String {
-        return "$baseApiUrl$method?v=$version&lang=$lang$args"
-    }
+    fun apiUrlTemplate(method: String, args: String = ""): String =
+            "$baseApiUrl$method?v=$version&lang=$lang$args${
+            if (accessToken != null) "&access_token=$accessToken" else ""}"
 
     /**
      * Получает дерево с ответом API Вконтакте
