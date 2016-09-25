@@ -9,7 +9,13 @@ import ru.sadv1r.vk.parser.exceptions.AccessDeniedException
 import ru.sadv1r.vk.parser.exceptions.VkException
 import ru.sadv1r.vk.parser.exceptions.WrongScreenNameException
 import ru.sadv1r.vk.parser.model.Error
+import java.io.BufferedReader
+import java.io.DataOutputStream
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
 import java.net.URL
+import java.nio.charset.Charset
+import javax.net.ssl.HttpsURLConnection
 
 /**
  * Базовый класс для всех парсеров Вконтакте
@@ -35,7 +41,7 @@ abstract class Parser(val accessToken: String? = null) {
      */
     fun apiUrlTemplate(method: String, args: String = ""): String =
             "$baseApiUrl$method?v=$version&lang=$lang$args${
-            if (accessToken != null) "&access_token=$accessToken" else ""}"
+            if (accessToken != null) "&access_token=$accessToken" else ""}" //TODO Заменить на URL()
 
     /**
      * Получает дерево с ответом API Вконтакте
@@ -72,6 +78,33 @@ abstract class Parser(val accessToken: String? = null) {
                 .joinToString("") { "&${it.key}=${it.value}" }
 
         return getResponseTree(method, paramGen(args))
+    }
+
+    /**
+     * Получает дерево с ответом API Вконтакте
+     *
+     * @param code
+     * @return {@code JsonNode} с деревом ответа
+     */
+    fun getExecuteResponseTree(code: String): JsonNode {
+        val conn = URL(apiUrlTemplate("execute")).openConnection() as HttpsURLConnection
+        conn.requestMethod = "POST"
+        conn.doOutput = true
+
+        val dataOutputStream = DataOutputStream(conn.outputStream)
+        val arguments: ByteArray = "&code=$code".toByteArray(Charset.defaultCharset())
+        dataOutputStream.write(arguments)
+
+        val bufferedReader = BufferedReader(InputStreamReader(conn.inputStream))
+
+        val responseTree = jacksonObjectMapper().readTree(bufferedReader)
+
+        if (responseTree.has("error")) {
+            val error: Error = jacksonObjectMapper().readValue(responseTree.get("error").toString())
+            errorHandler(error)
+        }
+
+        return responseTree
     }
 
     /**
