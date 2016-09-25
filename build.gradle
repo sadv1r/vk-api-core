@@ -52,7 +52,7 @@ sourceSets {
 }
 
 dokka {
-
+    outputFormat = 'javadoc'
 }
 
 githubPages {
