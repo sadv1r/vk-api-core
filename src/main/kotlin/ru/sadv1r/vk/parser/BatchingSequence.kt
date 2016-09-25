@@ -4,7 +4,7 @@ package ru.sadv1r.vk.parser
  * Функция для деления [последовательности][Sequence] на части нужного размера
  *
  * В Kotlin [планируется добавление](https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/window-sliding.md)
- * данной функциональности в новых версиях
+ * данной функциональности [в новых версиях](https://github.com/JetBrains/kotlin/compare/rr/cy/window-sliding)
  *
  * Created on 25/09/2016.
  *
