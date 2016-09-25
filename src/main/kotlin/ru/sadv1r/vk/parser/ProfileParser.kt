@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.slf4j.LoggerFactory
+import ru.sadv1r.vk.parser.ProfileParser.NameCase.*
+import ru.sadv1r.vk.parser.model.Execute
 import ru.sadv1r.vk.parser.model.Profile
 
 /**
@@ -59,8 +61,7 @@ class ProfileParser(accessToken: String? = null) : Parser(accessToken) {
         var maximumFriendsOnRequest = 1000
 
         if (friendsListSize > maximumFriendsOnRequest && accessToken != null) {
-
-            val params = mapOf("fields" to fields, "name_case" to nameCase)
+            /*val params = mapOf("fields" to fields, "name_case" to nameCase)
 
             val code: String = vkId.asSequence().batch(maximumFriendsOnRequest)
                     .joinToString("%2b", "return ", ";") { batch ->
@@ -69,7 +70,17 @@ class ProfileParser(accessToken: String? = null) : Parser(accessToken) {
                                 .joinToString(",", "API.users.get({user_ids:$batch,", "})") { param ->
                                     "${param.key}:\"${param.value}\""
                                 }
-                    }
+                    }*/
+
+            val execute = Execute()
+            val params = mutableMapOf("fields" to fields, "name_case" to nameCase)
+
+            vkId.asSequence().batch(maximumFriendsOnRequest).forEach {
+                params.put("user_ids", it)
+                execute.append("users.get", params)
+            }
+
+            val code = execute.compose()
 
             val responseTree = getExecuteResponseTree(code)
 
