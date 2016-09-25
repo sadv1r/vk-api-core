@@ -14,7 +14,7 @@ import ru.sadv1r.vk.parser.model.Profile
  * @author sadv1r
  * @version 0.1
  */
-class ProfileParser : Parser() {
+class ProfileParser(accessToken: String? = null) : Parser(accessToken) {
     private val logger = LoggerFactory.getLogger(ProfileParser::class.java)
 
     /**
@@ -54,20 +54,40 @@ class ProfileParser : Parser() {
      * @param vkId id пользователя Вконтакте
      * @return {@code List} профилей пользователей
      */
-    fun getProfile(vkId: List<Int>, fields: String = ""): List<Profile> {
-        val methodName = "users.get"
-        val maximumFriendsOnRequest = 400
-        val result: MutableList<Profile> = mutableListOf()
-
+    fun getProfile(vkId: List<Int>, fields: String? = null, nameCase: NameCase? = null): List<Profile> {
         val friendsListSize = vkId.size
-        for (offset in 0..friendsListSize step maximumFriendsOnRequest) {
-            val responseTree = getResponseTree(methodName, "&fields=$fields&user_ids=${
-            vkId.subList(offset, if (friendsListSize > offset + maximumFriendsOnRequest)
-                offset + maximumFriendsOnRequest else friendsListSize).joinToString(",")}")
-            result.addAll(getProfiles(responseTree))
-        }
+        var maximumFriendsOnRequest = 1000
 
-        return result
+        if (friendsListSize > maximumFriendsOnRequest && accessToken != null) {
+
+            val params = mapOf("fields" to fields, "name_case" to nameCase)
+
+            val code: String = vkId.asSequence().batch(maximumFriendsOnRequest)
+                    .joinToString("%2b", "return ", ";") { batch ->
+                        params.filterValues { it != null }
+                                .asSequence()
+                                .joinToString(",", "API.users.get({user_ids:$batch,", "})") { param ->
+                                    "${param.key}:\"${param.value}\""
+                                }
+                    }
+
+            val responseTree = getExecuteResponseTree(code)
+
+            return getProfiles(responseTree)
+        } else {
+            val methodName = "users.get"
+
+            maximumFriendsOnRequest = 400
+            val result: MutableList<Profile> = mutableListOf()
+
+            for (offset in 0..friendsListSize step maximumFriendsOnRequest) {       //FIXME Заменить на Do While
+                val responseTree = getResponseTree(methodName, "&fields=$fields&user_ids=${
+                vkId.subList(offset, if (friendsListSize > offset + maximumFriendsOnRequest)
+                    offset + maximumFriendsOnRequest else friendsListSize).joinToString(",")}")
+                result.addAll(getProfiles(responseTree))
+            }
+            return result
+        }
     }
 
     /**
@@ -82,5 +102,24 @@ class ProfileParser : Parser() {
         logger.trace("Получен профиль: {}", result)
 
         return result
+    }
+
+    /**
+     * @property NOM именительный
+     * @property GEN родительный
+     * @property DAT дательный
+     * @property ACC винительный
+     * @property INS творительный
+     * @property ABL предложный
+     */
+    enum class NameCase {
+        NOM,
+        GEN,
+        DAT,
+        ACC,
+        INS,
+        ABL;
+
+        override fun toString(): String = this.name.toLowerCase()
     }
 }
