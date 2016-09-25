@@ -38,6 +38,7 @@ class ProfileParser : Parser() {
      *        {@code JsonNode} с деревом ответа метода Вконтакте [users.get][getProfile]
      * @return профиль пользователя
      */
+    @Deprecated("Функция устарела", ReplaceWith("getProfiles(jsonNode).first()"))
     private fun getProfile(jsonNode: JsonNode): Profile {
         val result: Profile = jacksonObjectMapper()
                 .readValue(jsonNode.get("response").get(0).toString())
