@@ -1,7 +1,7 @@
 package ru.sadv1r.vk.parser.model
 
 /**
- * Created by sadv1r on 25/09/2016.
+ * @author [sadv1r](http://sadv1r.ru)
  */
 data class Execute(
         private val requests: MutableList<String> = mutableListOf()

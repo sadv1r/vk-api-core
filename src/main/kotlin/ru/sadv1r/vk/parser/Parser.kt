@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.slf4j.LoggerFactory
+import ru.sadv1r.vk.parser.Parser.ResolveScreenNameResult.Type.*
 import ru.sadv1r.vk.parser.exceptions.AccessDeniedException
 import ru.sadv1r.vk.parser.exceptions.VkException
 import ru.sadv1r.vk.parser.exceptions.WrongScreenNameException
@@ -12,19 +13,15 @@ import ru.sadv1r.vk.parser.model.Error
 import java.io.BufferedReader
 import java.io.DataOutputStream
 import java.io.InputStreamReader
-import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.charset.Charset
 import javax.net.ssl.HttpsURLConnection
 
 /**
- * Базовый класс для всех парсеров Вконтакте
+ * Базовый класс для всех парсеров Вконтакте.
  *
  * @param accessToken ключ доступа.
- * Created on 4/3/16.
- *
- * @author sadv1r
- * @version 0.1
+ * @author [sadv1r](http://sadv1r.ru)
  */
 abstract class Parser(val accessToken: String? = null) {
     private val logger = LoggerFactory.getLogger(Parser::class.java)
@@ -33,22 +30,22 @@ abstract class Parser(val accessToken: String? = null) {
     val lang: String = "ru"
 
     /**
-     * Создает шаблон URL адреса для доступа к API Вконтакте
+     * Создает шаблон URL адреса для доступа к API Вконтакте.
      *
-     * @param method название метода API Вконтакте
-     * @param args аргументы для запроса к методу API Вконтакте
-     * @return шаблон URL адреса
+     * @param method название метода API Вконтакте.
+     * @param args аргументы для запроса к методу API Вконтакте.
+     * @return шаблон URL адреса.
      */
     fun apiUrlTemplate(method: String, args: String = ""): String =
             "$baseApiUrl$method?v=$version&lang=$lang$args${
             if (accessToken != null) "&access_token=$accessToken" else ""}" //TODO Заменить на URL()
 
     /**
-     * Получает дерево с ответом API Вконтакте
+     * Получает дерево с ответом API Вконтакте.
      *
-     * @param method название метода API Вконтакте
-     * @param args аргументы для запроса к методу API Вконтакте
-     * @return {@code JsonNode} с деревом ответа
+     * @param method название метода API Вконтакте.
+     * @param args аргументы для запроса к методу API Вконтакте.
+     * @return [JsonNode] с деревом ответа.
      */
     fun getResponseTree(method: String, args: String = ""): JsonNode {
         val apiUrlString = apiUrlTemplate(method, args)
@@ -65,11 +62,11 @@ abstract class Parser(val accessToken: String? = null) {
     }
 
     /**
-     * Получает дерево с ответом API Вконтакте
+     * Получает дерево с ответом API Вконтакте.
      *
-     * @param method название метода API Вконтакте
-     * @param args аргументы для запроса к методу API Вконтакте
-     * @return {@code JsonNode} с деревом ответа
+     * @param method название метода API Вконтакте.
+     * @param args аргументы для запроса к методу API Вконтакте.
+     * @return [JsonNode] с деревом ответа.
      */
     fun getResponseTree(method: String, args: Map<String, Any?>): JsonNode {
         fun paramGen(map: Map<String, Any?>): String = map
@@ -81,10 +78,13 @@ abstract class Parser(val accessToken: String? = null) {
     }
 
     /**
-     * Получает дерево с ответом API Вконтакте
+     * Получает дерево с ответом API Вконтакте.
      *
-     * @param code
-     * @return {@code JsonNode} с деревом ответа
+     * @param code код алгоритма в **VKScript** - формате, похожем на **JavaSсript** или **ActionScript**
+     * (предполагается совместимость с **ECMAScript**).
+     * Алгоритм должен завершаться командой **return** **%выражение%**.
+     * Операторы должны быть разделены точкой с запятой.
+     * @return [JsonNode] с деревом ответа.
      */
     fun getExecuteResponseTree(code: String): JsonNode {
         val conn = URL(apiUrlTemplate("execute")).openConnection() as HttpsURLConnection
@@ -108,12 +108,11 @@ abstract class Parser(val accessToken: String? = null) {
     }
 
     /**
-     * Обработчик ошибок Вконтакте
+     * Обработчик ошибок Вконтакте.
+     * Бросает исключение, соответствующее ошибке Вконтакте.
      *
-     * Бросает исключение, соответствующее ошибке Вконтакте
-     *
-     * @param error имплементация ошибки Вконтакте
-     * @throws VkException
+     * @param error имплементация ошибки Вконтакте.
+     * @throws VkException если Вконтакте вернул ошибку.
      */
     fun errorHandler(error: Error) {
         if (error.errorCode == 15)
@@ -127,19 +126,19 @@ abstract class Parser(val accessToken: String? = null) {
     //TODO ВОЗМОЖНО необходимо перенести в отдельный "UtilParser"
     /**
      * Модель типа объекта (пользователь, сообщество, приложение)
-     * и его идентификатора по короткому имени screen_name
+     * и его идентификатора по короткому имени **screen_name**.
      *
-     * @param type тип объекта
-     * @param objectId идентификатор объекта
+     * @param type тип объекта.
+     * @param objectId идентификатор объекта.
      */
     data class ResolveScreenNameResult(val type: Type,
                                        @JsonProperty("object_id")
                                        val objectId: Int) {
         /**
-         * @property USER пользователь
-         * @property GROUP сообщество
-         * @property APPLICATION приложение
-         * @property PAGE страница
+         * @property USER пользователь.
+         * @property GROUP сообщество.
+         * @property APPLICATION приложение.
+         * @property PAGE страница.
          */
         enum class Type {
             @JsonProperty("user")
@@ -156,9 +155,9 @@ abstract class Parser(val accessToken: String? = null) {
      * Определяет тип объекта (пользователь, сообщество, приложение)
      * и его идентификатор по короткому имени **screen_name**.
      *
-     * @param screenName Короткое имя пользователя, группы или приложения
-     * @return {@code ResolveScreenNameResult} с типом и идентификатором объекта
-     * @throws IllegalArgumentException
+     * @param screenName Короткое имя пользователя, группы или приложения.
+     * @return [ResolveScreenNameResult] с типом и идентификатором объекта.
+     * @throws WrongScreenNameException если был передан неверный идентификатор пользователя.
      */
     fun resolveScreenName(screenName: String): ResolveScreenNameResult {
         logger.trace("Запуск метода resolveScreenName(String)")

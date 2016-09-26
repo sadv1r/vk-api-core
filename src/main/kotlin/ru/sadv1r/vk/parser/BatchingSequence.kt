@@ -1,16 +1,13 @@
 package ru.sadv1r.vk.parser
 
 /**
- * Функция для деления [последовательности][Sequence] на части нужного размера
+ * Функция для деления [последовательности][kotlin.sequences.Sequence] Sequence на части нужного размера.
  *
- * В Kotlin [планируется добавление](https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/window-sliding.md)
- * данной функциональности [в новых версиях](https://github.com/JetBrains/kotlin/compare/rr/cy/window-sliding)
+ * В Kotlin [планируется](https://github.com/JetBrains/kotlin/compare/rr/cy/window-sliding) добавление
+ * данной функциональности.
+ * [Предложение](https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/window-sliding.md) о добавлении.
  *
- * Created on 25/09/2016.
- *
- * @author sadv1r
- *
- * @version 1.0
+ * @author [sadv1r](http://sadv1r.ru)
  */
 
 fun <T> Sequence<T>.batch(n: Int): Sequence<List<T>> {
