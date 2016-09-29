@@ -5,8 +5,7 @@ buildscript {
     ext.kotlin_version = '1.0.4'
     ext.jackson_version = '2.8.3'
     ext.jackson_kotlin_version = '2.8.3'
-    ext.log4j_version = '1.2.17'
-    ext.sl4j_version = '1.7.12'
+    ext.logback_version = '0.9.26'
     ext.junit_version = '4.12'
     ext.dokka_version = '0.9.9'
 
@@ -29,8 +28,6 @@ apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'org.ajoberstar.github-pages'
 apply plugin: 'maven-publish'
 
-
-
 repositories {
     jcenter()
     mavenLocal()
@@ -41,8 +38,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_kotlin_version"
-    compile("log4j:log4j:$log4j_version")
-    compile("org.slf4j:slf4j-simple:$sl4j_version")
+    compile "ch.qos.logback:logback-classic:$logback_version"
 
     testCompile group: 'junit', name: 'junit', version: "$junit_version"
 }

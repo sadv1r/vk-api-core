@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--<configuration debug="false" scan="true" scanPeriod="5 seconds">-->
-<configuration>
-
+<configuration debug="false">
     <!--<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>-->
@@ -10,93 +8,19 @@
     <!--<jmxConfigurator/>-->
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <!--<pattern>%-5level %logger{0} - %msg%n</pattern>-->
+        <!--<pattern>%-5level %logger{0} - %msg%n</pattern>-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>%d{"ISO8601", GMT+3} %-5level %logger{36} - %msg%n</Pattern>
-        </layout>
+        </encoder>
     </appender>
-
-    <appender name="loggly" class="ch.qos.logback.ext.loggly.LogglyAppender">
-        <endpointUrl>https://logs-01.loggly.com/inputs/8abf3288-008b-45e1-af83-bcdaa762a981/tag/logback</endpointUrl>
-        <pattern>%d{"ISO8601", UTC}  %p %t %c{0}.%M - %m%n</pattern>
-
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>trace</level>
-        </filter>
-    </appender>
-
 
     <!-- Logging levels: error, warn, info, debug, trace -->
     <root level="trace">
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="STDOUT"/>
     </root>
 
-    <logger name="ru.sadv1r.vk.parser" level="TRACE">
-        <appender-ref ref="loggly" />
-    </logger>
-
-
-    <!--
-    &lt;!&ndash; #############################
-         ### Our Project ###
-         ############################# &ndash;&gt;
-    <logger name="org.apache" level="info"/>
-
-    &lt;!&ndash; #############################
-         ### Spring JDBC ###
-         ############################# &ndash;&gt;
-    <logger name="org.springframework.jdbc" level="warn"/>
-
-    &lt;!&ndash; #############################
-         ### Spring TRANSACTION ###
-         ############################# &ndash;&gt;
-    <logger name="org.springframework.transaction" level="info"/>
-
-    &lt;!&ndash; #############################
-         ### Spring ORM logging ###
-         ############################# &ndash;&gt;
-    <logger name="org.springframework.orm" level="debug"/>
-
-    &lt;!&ndash; #############################
-         ### Spring HIBERNATE ###
-         ############################# &ndash;&gt;
-    <logger name="org.springframework.orm.hibernate" level="warn"/>
-
-    &lt;!&ndash; #############################
-         ### Spring JPA ###
-         ############################# &ndash;&gt;
-    <logger name="org.springframework.orm.jpa" level="warn"/>
-
-    &lt;!&ndash; #############################
-         ### All Hibernate ###
-         ############################# &ndash;&gt;
-    <logger name="org.hibernate" level="info"/>
-
-    &lt;!&ndash; #############################
-         ### SQL Fragmnts & Stmnts ###
-         ############################# &ndash;&gt;
-    <logger name="org.hibernate.sql" level="trace"/>
-
-    &lt;!&ndash; #############################
-         ### Map Java-JDBC types ###
-         ############################# &ndash;&gt;
-    <logger name="org.hibernate.type" level="warn"/>
-
-    &lt;!&ndash; #############################
-         ### Schema Gen and DDL ###
-         ############################# &ndash;&gt;
-    <logger name="org.hibernate.tool.hbm2ddl" level="warn"/>
-
-    &lt;!&ndash; #############################
-         ### 2nd Lvl Query Caching ###
-         ############################# &ndash;&gt;
-    <logger name="org.hibernate.cache" level="warn"/>
-
-
-    <logger name="org.hibernate" level="debug" />
-
-    <logger name="org.springframework" level="TRACE" additivity="false">
-        <appender-ref ref="STDOUT" />
-    </logger>
-    -->
+    #############################
+    ### Our Project ###
+    #############################
+    <logger name="ru.sadv1r.vk.parser" level="trace"/>
 </configuration>
