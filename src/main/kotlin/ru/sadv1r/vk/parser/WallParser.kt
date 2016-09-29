@@ -3,7 +3,7 @@ package ru.sadv1r.vk.parser
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import org.apache.log4j.Logger
+import org.slf4j.LoggerFactory
 import ru.sadv1r.vk.parser.model.Post
 
 /**
@@ -15,7 +15,7 @@ import ru.sadv1r.vk.parser.model.Post
  * @version 0.1
  */
 class WallParser: Parser() {
-    val logger = Logger.getLogger("ru.sadv1r.vk.monitoring")
+    private val logger = LoggerFactory.getLogger(WallParser::class.java)
 
     /**
      * Получает посты пользователя
