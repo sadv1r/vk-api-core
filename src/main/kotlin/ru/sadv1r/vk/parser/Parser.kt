@@ -36,9 +36,14 @@ abstract class Parser(val accessToken: String? = null) {
      * @param args аргументы для запроса к методу API Вконтакте.
      * @return шаблон URL адреса.
      */
-    fun apiUrlTemplate(method: String, args: String = ""): String =
-            "$baseApiUrl$method?v=$version&lang=$lang$args${
-            if (accessToken != null) "&access_token=$accessToken" else ""}" //TODO Заменить на URL()
+    fun apiUrlTemplate(method: String, args: String = ""): String {
+        val apiUrl = "$baseApiUrl$method?v=$version&lang=$lang$args${
+        if (accessToken != null) "&access_token=$accessToken" else ""}"
+
+        logger.trace("Сформированный URL: {}", apiUrl)
+
+        return apiUrl
+    } //TODO Заменить на URL()
 
     /**
      * Получает дерево с ответом API Вконтакте.
@@ -48,14 +53,15 @@ abstract class Parser(val accessToken: String? = null) {
      * @return [JsonNode] с деревом ответа.
      */
     fun getResponseTree(method: String, args: String = ""): JsonNode {
+        logger.trace("Запуск метода getResponseTree(String, String)")
+
         val apiUrlString = apiUrlTemplate(method, args)
         val apiUrl = URL(apiUrlString)
         val responseTree = jacksonObjectMapper().readTree(apiUrl)
-        logger.trace("Ответ от VK API получен")
+        logger.trace("Ответ от VK API получен: {}", responseTree)
 
         if (responseTree.has("error")) {
-            val error: Error = jacksonObjectMapper().readValue(responseTree.get("error").toString())
-            errorHandler(error)
+            errorHandler(responseTree)
         }
 
         return responseTree
@@ -69,6 +75,8 @@ abstract class Parser(val accessToken: String? = null) {
      * @return [JsonNode] с деревом ответа.
      */
     fun getResponseTree(method: String, args: Map<String, Any?>): JsonNode {
+        logger.trace("Запуск метода getResponseTree(String, Map<String, Any?>)")
+
         fun paramGen(map: Map<String, Any?>): String = map
                 .filterValues { it != null }
                 .asSequence()
@@ -87,6 +95,8 @@ abstract class Parser(val accessToken: String? = null) {
      * @return [JsonNode] с деревом ответа.
      */
     fun getExecuteResponseTree(code: String): JsonNode {
+        logger.trace("Запуск метода getExecuteResponseTree(String)")
+
         val conn = URL(apiUrlTemplate("execute")).openConnection() as HttpsURLConnection
         conn.requestMethod = "POST"
         conn.doOutput = true
@@ -100,8 +110,7 @@ abstract class Parser(val accessToken: String? = null) {
         val responseTree = jacksonObjectMapper().readTree(bufferedReader)
 
         if (responseTree.has("error")) {
-            val error: Error = jacksonObjectMapper().readValue(responseTree.get("error").toString())
-            errorHandler(error)
+            errorHandler(responseTree)
         }
 
         return responseTree
@@ -111,16 +120,27 @@ abstract class Parser(val accessToken: String? = null) {
      * Обработчик ошибок Вконтакте.
      * Бросает исключение, соответствующее ошибке Вконтакте.
      *
-     * @param error имплементация ошибки Вконтакте.
-     * @throws VkException если Вконтакте вернул ошибку.
+     * @param responseTree дерево ответа Вконтакте, содержащее ошибку.
+     * @throws VkException исключение на основе ошибки Вконтакте.
      */
-    fun errorHandler(error: Error) {
-        if (error.errorCode == 15)
-            throw AccessDeniedException(error.errorMsg)
-        if (error.errorCode == 113)
-            throw WrongScreenNameException(error.errorMsg)
-        else
-            throw VkException()
+    fun errorHandler(responseTree: JsonNode) {
+        logger.trace("Запуск метода errorHandler(Error)")
+
+        val error: Error = jacksonObjectMapper().readValue(responseTree.get("error").toString())
+
+        if (error.errorCode == 15) {
+            val vkException = AccessDeniedException(error)
+            logger.warn("Обнаружена ошибка", vkException)
+            throw vkException
+        } else if (error.errorCode == 113) {
+            val vkException = WrongScreenNameException(error)
+            logger.warn("Обнаружена ошибка", vkException)
+            throw vkException
+        } else {
+            val vkException = VkException(error)
+            logger.error("Обнаружена неизвестная ошибка", vkException)
+            throw VkException(error)
+        }
     }
 
     //TODO ВОЗМОЖНО необходимо перенести в отдельный "UtilParser"
@@ -161,13 +181,14 @@ abstract class Parser(val accessToken: String? = null) {
      */
     fun resolveScreenName(screenName: String): ResolveScreenNameResult {
         logger.trace("Запуск метода resolveScreenName(String)")
+
         val methodName = "utils.resolveScreenName"
-        logger.trace("Получаем id объекта \"" + screenName + "\"")
+        logger.trace("Получаем id объекта \"{}\"", screenName)
 
         val jsonNode = getResponseTree(methodName, "&screen_name=$screenName")
         val result: ResolveScreenNameResult = jacksonObjectMapper()
                 .readValue(jsonNode.get("response").toString())
-        logger.debug("Получен объект \"${result.type}\" с id: ${result.objectId}")
+        logger.debug("Получен объект \"{}\" с id: {}", result.type, result.objectId)
 
         return ResolveScreenNameResult(result.type, result.objectId)
     }
