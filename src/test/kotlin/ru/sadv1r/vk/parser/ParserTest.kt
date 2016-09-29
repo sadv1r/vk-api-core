@@ -35,8 +35,9 @@ class ParserTest {
         val expectedId = 9313032
 
         val resolveScreenNameResult: Parser.ResolveScreenNameResult = parser.resolveScreenName("sadv1r")
-        Assert.assertEquals("URL без параметров составлен не верно", expectedType, resolveScreenNameResult.type)
-        Assert.assertEquals("URL без параметров составлен не верно", expectedId, resolveScreenNameResult.objectId)
+
+        Assert.assertEquals("Тип объекта определен неверно", expectedType, resolveScreenNameResult.type)
+        Assert.assertEquals("Идентификатор объекта определен неверно", expectedId, resolveScreenNameResult.objectId)
     }
 
     //FIXME! Тест не проверяет сообщение ошибки. Проблема с ExpectedException Rule (возможно, ExpectedException не понимает Kotlin класс)
