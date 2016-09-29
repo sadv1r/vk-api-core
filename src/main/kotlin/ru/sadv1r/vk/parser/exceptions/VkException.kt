@@ -1,26 +1,28 @@
 package ru.sadv1r.vk.parser.exceptions
 
+import ru.sadv1r.vk.parser.model.Error
+
 /**
- * Класс {@code VkException} и его подклассы являются исключениями,
+ * Класс [VkException] и его подклассы являются исключениями,
  * создающимися на основе ошибок, возвращаемых Вконтакте.
+ * Данный класс является полностью самостоятельным, а его подклассы
+ * нужны лишь для увеличения удобства использования.
  *
- * @author sadv1r
- * @version 0.1
- * @since 0.1
+ * @author [sadv1r](http://sadv1r.ru)
  */
 open class VkException: Exception {
-    /**
-     * Создает {@code VkException} с {@code null}
-     * в качестве сообщения об ошибке.
-     */
-    constructor() : super()
+    val errorCode: Int
+    val errorMsg: String
+    val requestParams: List<Error.Param>
 
     /**
-     * Создает {@code VkException} с уточняющим сообщением.
+     * Создает [VkException] с уточняющим сообщением.
      *
-     * @param message
-     *        Уточняющее сообщение (сохраняемое для последующего
-     *        извлечения методом {@link #getMessage()})
+     * @param error ошибка Вконтакте.
      */
-    constructor(message: String) : super(message)
+    constructor(error: Error) : super(error.errorMsg) {
+        this.errorCode = error.errorCode
+        this.errorMsg = error.errorMsg
+        this.requestParams = error.requestParams
+    }
 }

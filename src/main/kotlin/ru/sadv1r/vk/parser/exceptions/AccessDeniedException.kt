@@ -1,28 +1,23 @@
 package ru.sadv1r.vk.parser.exceptions
 
+import ru.sadv1r.vk.parser.model.Error
+
 /**
  * Означает, что доступ к контенту для текущего пользователя запрещен.
  *
  * @property vkErrorCode код ошибки Вконтакте
- * @author sadv1r
- * @version 0.1
- * @since 0.1
+ * @author [sadv1r](http://sadv1r.ru)
  */
 class AccessDeniedException : VkException {
     val vkErrorCode = 15
 
     /**
-     * Создает {@code AccessDeniedException} с {@code null}
-     * в качестве сообщения об ошибке.
-     */
-    constructor() : super()
-
-    /**
-     * Создает {@code AccessDeniedException} с уточняющим сообщением.
+     * Создает [AccessDeniedException] с уточняющим сообщением.
      *
-     * @param message
-     *        Уточняющее сообщение (сохраняемое для последующего
-     *        извлечения методом {@link #getMessage()})
+     * @param error ошибка Вконтакте.
      */
-    constructor(message: String) : super(message)
+    constructor(error: Error) : super(error) {
+        if (vkErrorCode != error.errorCode)
+            throw IllegalArgumentException("Для создания исключения передана неверная ошибка")
+    }
 }
