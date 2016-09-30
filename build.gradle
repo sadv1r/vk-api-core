@@ -35,6 +35,8 @@ apply plugin: 'signing'
 
 //apply plugin: 'com.bmuschko.nexus'
 
+apply plugin: "jacoco"
+
 repositories {
     jcenter()
     mavenLocal()
@@ -49,6 +51,7 @@ dependencies {
 
     testCompile group: 'junit', name: 'junit', version: "$junit_version"
 
+    testCompile "org.jacoco:jacoco-maven-plugin:0.5.8.201207111220"
 }
 
 sourceSets {
@@ -152,5 +155,12 @@ uploadArchives {
                 }
             }
         }
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        xml.destination "${buildDir}/jacocoXml"
     }
 }
