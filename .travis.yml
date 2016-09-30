@@ -1,4 +1,6 @@
 language: java
 sudo: false
+install: true
+script: test
 after_success:
   - bash <(curl -s https://codecov.io/bash)
