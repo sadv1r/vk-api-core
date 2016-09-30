@@ -51,7 +51,7 @@ dependencies {
 
     testCompile group: 'junit', name: 'junit', version: "$junit_version"
 
-    testCompile "org.jacoco:jacoco-maven-plugin:0.5.8.201207111220"
+    testCompile "org.jacoco:jacoco-maven-plugin:0.7.7.201606060606"
 }
 
 sourceSets {
