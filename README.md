@@ -2,6 +2,7 @@
 [![license](https://img.shields.io/badge/License-CC%20BY--SA%204.0-green.svg?maxAge=3600)](http://creativecommons.org/licenses/by-sa/4.0/)
 [![codebeat badge](https://codebeat.co/badges/e084a593-c569-4e55-a5cd-d7622ff5569e)](https://codebeat.co/projects/github-com-sadv1r-vk-parser)
 [![Dependency Status](https://www.versioneye.com/user/projects/57ee71a3769f21003e0f9713/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57ee71a3769f21003e0f9713)
+[![Beerpay](https://beerpay.io/sadv1r/vk-parser/badge.svg?style=flat)](https://beerpay.io/sadv1r/vk-parser)
 
 # Vk-Parser
 Парсер социальной сети Вконтакте
