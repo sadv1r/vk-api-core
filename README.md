@@ -5,13 +5,38 @@
 [![Beerpay](https://beerpay.io/sadv1r/vk-parser/badge.svg?style=flat)](https://beerpay.io/sadv1r/vk-parser)
 
 # Vk-Parser
-Парсер социальной сети Вконтакте
+[vk.com](https://vk.com) [API] (https://vk.com/dev/) implementation
 
+# Add it to your project
+Every VkParser release is published to the Maven Central Repository. You can just download .jar package or add a dependency from your project as follows.
+(Note: 0.1.0 is the latest stable version as of the latest edit on this page.)
 
-[![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png "Creative Commons License")](http://creativecommons.org/licenses/by-sa/4.0/)  
-This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
+## Plain-old JAR
+Download the following JAR put it on your classpath:
+* [`vk-parser-0.1.0.jar`](https://repo1.maven.org/maven2/ru/sadv1r/vk/vk-parser/0.1.0/vk-parser-0.1.0.jar)
+
+## Maven
+Include the library in your ``pom.xml``
+
+    <dependency>
+      <groupId>ru.sadv1r.vk</groupId>
+      <artifactId>vk-parser</artifactId>
+      <version>0.1.0</version>
+    </dependency>
+
+## Gradle
+Include the library in your ``build.gradle``
+
+```groovy
+dependencies {
+  compile 'ru.sadv1r.vk:vk-parser:0.1.0'
+}
+```
 
 ## Support on Beerpay
 Hey dude! Help me out for a couple of :beers:!
 
 [![Beerpay](https://beerpay.io/sadv1r/vk-parser/badge.svg?style=beer-square)](https://beerpay.io/sadv1r/vk-parser)  [![Beerpay](https://beerpay.io/sadv1r/vk-parser/make-wish.svg?style=flat-square)](https://beerpay.io/sadv1r/vk-parser?focus=wish)
+
+[![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png "Creative Commons License")](http://creativecommons.org/licenses/by-sa/4.0/)  
+This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
