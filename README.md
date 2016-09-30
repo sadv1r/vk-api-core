@@ -9,3 +9,8 @@
 
 [![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png "Creative Commons License")](http://creativecommons.org/licenses/by-sa/4.0/)  
 This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
+
+## Support on Beerpay
+Hey dude! Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/sadv1r/vk-parser/badge.svg?style=beer-square)](https://beerpay.io/sadv1r/vk-parser)  [![Beerpay](https://beerpay.io/sadv1r/vk-parser/make-wish.svg?style=flat-square)](https://beerpay.io/sadv1r/vk-parser?focus=wish)
