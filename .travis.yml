@@ -1,8 +1,6 @@
 language: java
-sudo: false # faster builds
+sudo: false
 install: true
-before_install:
-  - pip install --user codecov
 
 after_success:
-  - codecov
+  - bash <(curl -s https://codecov.io/bash)

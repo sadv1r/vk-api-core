@@ -33,8 +33,6 @@ apply plugin: 'maven-publish'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-apply plugin: "jacoco"
-
 //apply plugin: 'com.bmuschko.nexus'
 
 repositories {
@@ -51,7 +49,6 @@ dependencies {
 
     testCompile group: 'junit', name: 'junit', version: "$junit_version"
 
-    testCompile "org.jacoco:jacoco-maven-plugin:0.5.8.201207111220"
 }
 
 sourceSets {
@@ -155,12 +152,5 @@ uploadArchives {
                 }
             }
         }
-    }
-}
-
-
-jacocoTestReport {
-    reports {
-        xml.enabled true
     }
 }
