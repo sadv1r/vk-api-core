@@ -118,32 +118,4 @@ class PhotoParserTest {
             assertEquals(value.date, getPhotosResult[index].date)
         }
     }
-
-    @Test
-    fun apiUrlTemplate() {
-        val expected = "https://api.vk.com/method/utils.getServerTime?v=5.24&lang=ru"
-
-        val actual: String = photoParser.apiUrlTemplate("utils.getServerTime")
-
-        assertEquals("URL без параметров составлен не верно", expected, actual)
-    }
-
-    @Test
-    fun apiUrlTemplate1() {
-        val expected = "https://api.vk.com/method/utils.getServerTime?v=5.24&lang=ru&parameter1=value1&parameter2=value2"
-
-        val actual: String = photoParser.apiUrlTemplate("utils.getServerTime", "&parameter1=value1&parameter2=value2")
-
-        assertEquals("URL с параметрами составлен не верно", expected, actual)
-    }
-
-    @Test
-    fun getResponseTree() {
-
-    }
-
-    @Test
-    fun getResponseTree1() {
-
-    }
 }
