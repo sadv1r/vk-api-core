@@ -36,6 +36,7 @@ abstract class Parser(val accessToken: String? = null) {
      * @param args аргументы для запроса к методу API Вконтакте.
      * @return шаблон URL адреса.
      */
+    //TODO возможно стоит добавить @JvmOverloads
     fun apiUrlTemplate(method: String, args: String = ""): String {
         val apiUrl = "$baseApiUrl$method?v=$version&lang=$lang$args${
         if (accessToken != null) "&access_token=$accessToken" else ""}"
