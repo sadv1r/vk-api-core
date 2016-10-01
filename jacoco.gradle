@@ -1,0 +1,32 @@
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        xml.destination "${buildDir}/jacocoXml"
+    }
+}
+
+/**
+ * @see [KotlinCoverageReport](https://discuss.kotlinlang.org/t/gradle-code-coverage-report/390)
+ */
+//noinspection GroovyAssignabilityCheck
+task coverage(dependsOn: 'jacocoTestReport') << {
+    def reports = new File(project.buildDir, '/reports/jacoco/test/html')
+    def index = new File(reports, 'index.html').getText('UTF-8')
+    def footer = '<div class="footer">'
+    def result = new StringBuilder(index.substring(0, index.indexOf(footer)))
+
+    reports.eachDirMatch({ !new File(it).name.startsWith(".") }) { dir ->
+        def moduleIndex = new File(dir, 'index.source.html')
+        def content = moduleIndex.getText('UTF-8')
+                .replaceAll('\\.\\./\\.resources', '.resources')
+                .replaceAll('href="', "href=\"${dir.name}/")
+        result.append(content.substring(content.indexOf('<h1>'), content.indexOf(footer)))
+    }
+    result.append(index.substring(index.indexOf(footer)))
+
+    def output = new File(reports, 'index.source.html')
+
+    output.delete()
+    output << result.toString()
+    println("open $output.path")
+}
