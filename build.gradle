@@ -37,6 +37,8 @@ apply plugin: 'signing'
 
 apply plugin: "jacoco"
 
+apply from: "jacoco.gradle"
+
 repositories {
     jcenter()
     mavenLocal()
@@ -155,12 +157,5 @@ uploadArchives {
                 }
             }
         }
-    }
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        xml.destination "${buildDir}/jacocoXml"
     }
 }
