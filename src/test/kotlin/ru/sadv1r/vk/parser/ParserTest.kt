@@ -76,7 +76,6 @@ class ParserTest {
     @Test
     fun getExecuteResponseTree() {
         assumeTrue("Ключ авторизации не указан", System.getProperties().containsKey("accessToken"))
-        //assertTrue("Ключ авторизации не указан", System.getProperties().containsKey("accessToken"))
 
         parser = object : Parser(System.getProperty("accessToken")) {}
         val code = "return API.users.get({user_ids:\"sadv1r\"});"
