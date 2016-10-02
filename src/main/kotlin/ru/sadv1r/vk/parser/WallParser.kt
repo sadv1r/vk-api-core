@@ -1,5 +1,6 @@
 package ru.sadv1r.vk.parser
 
+import com.fasterxml.jackson.core.JsonPointer
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -16,6 +17,8 @@ import ru.sadv1r.vk.parser.model.Post
  */
 class WallParser: Parser() {
     private val logger = LoggerFactory.getLogger(WallParser::class.java)
+
+    private val getPostsResponseItemsJsonPointer: JsonPointer = JsonPointer.valueOf("/response/items")
 
     /**
      * Получает посты пользователя
@@ -39,8 +42,7 @@ class WallParser: Parser() {
      * @return {@code List} постов пользователя
      */
     fun getPosts(jsonNode: JsonNode): List<Post> {
-        val result: List<Post> = jacksonObjectMapper()
-                .readValue(jsonNode.get("response").get("items").toString())
+        val result: List<Post> = getParsableVkObjects<Post>(jsonNode, getPostsResponseItemsJsonPointer)
 
         var temp = ""; result.forEach { temp += "${it.id} " }
         logger.trace("Полученные посты: $temp")
