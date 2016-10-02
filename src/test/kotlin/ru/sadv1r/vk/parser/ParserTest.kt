@@ -2,10 +2,9 @@ package ru.sadv1r.vk.parser
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import org.junit.After
+import org.junit.*
 import org.junit.Assert.*
-import org.junit.Before
-import org.junit.Test
+import org.junit.Assume.*
 import ru.sadv1r.vk.parser.exceptions.VkException
 
 /**
@@ -76,7 +75,8 @@ class ParserTest {
 
     @Test
     fun getExecuteResponseTree() {
-        assertTrue("Ключ авторизации не указан", System.getProperties().containsKey("accessToken"))
+        assumeTrue("Ключ авторизации не указан", System.getProperties().containsKey("accessToken"))
+        //assertTrue("Ключ авторизации не указан", System.getProperties().containsKey("accessToken"))
 
         parser = object : Parser(System.getProperty("accessToken")) {}
         val code = "return API.users.get({user_ids:\"sadv1r\"});"
