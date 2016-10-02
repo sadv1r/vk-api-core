@@ -1,8 +1,7 @@
 package ru.sadv1r.vk.parser
 
+import com.fasterxml.jackson.core.JsonPointer
 import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import org.slf4j.LoggerFactory
 import ru.sadv1r.vk.parser.FriendsParser.NameCase.*
 import ru.sadv1r.vk.parser.FriendsParser.Order.*
@@ -15,6 +14,8 @@ import ru.sadv1r.vk.parser.model.Profile
  */
 class FriendsParser(accessToken: String? = null) : Parser(accessToken) {
     private val logger = LoggerFactory.getLogger(ProfileParser::class.java)
+
+    private val getFriendsResponseItemsJsonPointer: JsonPointer = JsonPointer.valueOf("/response/items")
 
     /**
      * Возвращает список идентификаторов друзей пользователя.
@@ -99,26 +100,41 @@ class FriendsParser(accessToken: String? = null) : Parser(accessToken) {
      * @return [List] друзей пользователя.
      */
     private fun getFriends(jsonNode: JsonNode): List<Int> {
-        val result: List<Int> = jacksonObjectMapper()
-                .readValue(jsonNode.get("response").get("items").toString())
+        val result: List<Int> = getParsableVkObjects(jsonNode, getFriendsResponseItemsJsonPointer)
 
         logger.trace("Получен профиль: {}", result)
 
         return result
     }
+    /*private fun getFriends(jsonNode: JsonNode): List<Int> {
+    val result: List<Int> = jacksonObjectMapper()
+            .readValue(jsonNode.get("response").get("items").toString())
+
+    logger.trace("Получен профиль: {}", result)
+
+    return result
+    }*/
+
 
     /**
      * @param jsonNode дерево ответа метода Вконтакте [friends.get][getFriends].
      * @return [List] друзей пользователя.
      */
     private fun getFriendsProfiles(jsonNode: JsonNode): List<Profile> {
+        val result: List<Profile> = getParsableVkObjects(jsonNode, getFriendsResponseItemsJsonPointer)
+
+        logger.trace("Получен профиль: {}", result)
+
+        return result
+    }
+    /*private fun getFriendsProfiles(jsonNode: JsonNode): List<Profile> {
         val result: List<Profile> = jacksonObjectMapper()
                 .readValue(jsonNode.get("response").get("items").toString())
 
         logger.trace("Получен профиль: {}", result)
 
         return result
-    }
+    }*/
 
     /**
      * @property HINTS сортировать по рейтингу, аналогично тому, как друзья сортируются в разделе **Мои друзья**.

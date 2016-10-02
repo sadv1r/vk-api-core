@@ -1,6 +1,7 @@
 package ru.sadv1r.vk.parser
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonPointer
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -193,4 +194,11 @@ abstract class Parser(val accessToken: String? = null) {
 
         return ResolveScreenNameResult(result.type, result.objectId)
     }
+
+    /**
+     * @param jsonNode дерево ответа API Вконтакте.
+     * @return [List] объектов Вконтакте.
+     */
+    fun <DataObject> getParsableVkObjects(jsonNode: JsonNode, pointer: JsonPointer): List<DataObject> =
+            jacksonObjectMapper().readValue(jsonNode.at(pointer).toString())
 }
