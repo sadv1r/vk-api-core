@@ -10,19 +10,19 @@
 
 # Add it to your project
 Every VK-API-Core release is published to the Maven Central Repository. You can just download .jar package or add a dependency from your project as follows.
-(Note: 0.1.0 is the latest stable version as of the latest edit on this page.)
+(Note: 0.1.2 is the latest stable version as of the latest edit on this page.)
 
 ## Plain-old JAR
 Download the following JAR put it on your classpath:
-* [`vk-parser-0.1.0.jar`](https://repo1.maven.org/maven2/ru/sadv1r/vk/vk-parser/0.1.0/vk-parser-0.1.0.jar)
+* [`vk-api-core-0.1.2.jar`](https://repo1.maven.org/maven2/ru/sadv1r/vk/vk-api-core/0.1.2/vk-api-core-0.1.2.jar)
 
 ## Maven
 Include the library in your ``pom.xml``
 
     <dependency>
       <groupId>ru.sadv1r.vk</groupId>
-      <artifactId>vk-parser</artifactId>
-      <version>0.1.0</version>
+      <artifactId>vk-api-core</artifactId>
+      <version>0.1.2</version>
     </dependency>
 
 ## Gradle
@@ -30,7 +30,7 @@ Include the library in your ``build.gradle``
 
 ```groovy
 dependencies {
-  compile 'ru.sadv1r.vk:vk-parser:0.1.0'
+  compile 'ru.sadv1r.vk:vk-api-core:0.1.2'
 }
 ```
 
