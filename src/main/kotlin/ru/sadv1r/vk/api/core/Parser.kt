@@ -41,13 +41,13 @@ abstract class Parser(val accessToken: String? = null) {
      * @return шаблон URL адреса.
      */
     //TODO возможно стоит добавить @JvmOverloads
-    fun apiUrlTemplate(method: String, args: String = ""): String {
+    fun apiUrlTemplate(method: String, args: String = ""): URL {
         val apiUrl = "$baseApiUrl$method?v=$version&lang=$lang$args${
         if (accessToken != null) "&access_token=$accessToken" else ""}"
 
         logger.trace("Сформированный URL: {}", apiUrl)
 
-        return apiUrl
+        return URL(apiUrl)
     } //TODO Заменить на URL()
 
     /**
@@ -65,8 +65,7 @@ abstract class Parser(val accessToken: String? = null) {
         if (args.length > 1000) {
             responseTree = getResponseTreeByPostRequest(method, args)
         } else {
-            val apiUrlString = apiUrlTemplate(method, args)
-            val apiUrl = URL(apiUrlString)
+            val apiUrl = apiUrlTemplate(method, args)
 
             responseTree = jacksonObjectMapper().readTree(apiUrl)
         }
@@ -108,7 +107,7 @@ abstract class Parser(val accessToken: String? = null) {
     private fun getResponseTreeByPostRequest(method: String, args: String): JsonNode {
         logger.trace("Запуск метода getResponseTreeByPostRequest(String, String)")
 
-        val conn = URL(apiUrlTemplate(method)).openConnection() as HttpsURLConnection
+        val conn = apiUrlTemplate(method).openConnection() as HttpsURLConnection
         conn.requestMethod = "POST"
         conn.doOutput = true
 

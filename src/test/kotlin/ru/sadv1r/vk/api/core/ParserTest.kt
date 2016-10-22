@@ -6,6 +6,7 @@ import org.junit.*
 import org.junit.Assert.*
 import org.junit.Assume.*
 import ru.sadv1r.vk.api.core.exceptions.VkException
+import java.net.URL
 
 /**
  * Created on 4/4/16.
@@ -29,19 +30,19 @@ class ParserTest {
 
     @Test
     fun apiUrlTemplate() {
-        val expected = "https://api.vk.com/method/utils.getServerTime?v=5.24&lang=ru"
+        val expected = URL("https://api.vk.com/method/utils.getServerTime?v=5.24&lang=ru")
 
-        val actual: String = parser.apiUrlTemplate("utils.getServerTime")
+        val actual: URL = parser.apiUrlTemplate("utils.getServerTime")
 
         assertEquals("URL без параметров составлен неверно", expected, actual)
     }
 
     @Test
     fun apiUrlTemplate1() {
-        val expected = "https://api.vk.com/method/utils.getServerTime?v=5.24&lang=ru" +
-                "&parameter1=value1&parameter2=value2"
+        val expected = URL("https://api.vk.com/method/utils.getServerTime?v=5.24&lang=ru" +
+                "&parameter1=value1&parameter2=value2")
 
-        val actual: String = parser.apiUrlTemplate("utils.getServerTime",
+        val actual: URL = parser.apiUrlTemplate("utils.getServerTime",
                 "&parameter1=value1&parameter2=value2")
 
         assertEquals("URL с параметрами составлен неверно", expected, actual)
