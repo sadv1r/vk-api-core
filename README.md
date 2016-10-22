@@ -1,4 +1,4 @@
-[![Maven Central](https://img.shields.io/maven-central/v/ru.sadv1r.vk/vk-parser.svg?maxAge=3600)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22ru.sadv1r.vk%22%20a%3A%22vk-parser%22)
+[![Maven Central](https://img.shields.io/maven-central/v/ru.sadv1r.vk/vk-api-core.svg?maxAge=3600)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22ru.sadv1r.vk%22%20a%3A%22vk-api-core%22)
 [![license](https://img.shields.io/badge/License-CC%20BY--SA%204.0-green.svg?maxAge=3600)](http://creativecommons.org/licenses/by-sa/4.0/)
 [![Build Status](https://travis-ci.org/sadv1r/vk-parser.svg?branch=master)](https://travis-ci.org/sadv1r/vk-parser)
 [![codebeat badge](https://codebeat.co/badges/e084a593-c569-4e55-a5cd-d7622ff5569e)](https://codebeat.co/projects/github-com-sadv1r-vk-parser)
