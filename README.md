@@ -5,11 +5,11 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/57ee71a3769f21003e0f9713/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57ee71a3769f21003e0f9713)
 [![Beerpay](https://beerpay.io/sadv1r/vk-parser/badge.svg?style=flat)](https://beerpay.io/sadv1r/vk-parser)
 
-# Vk-Parser
+# VK-API-Core
 [vk.com](https://vk.com) [API] (https://vk.com/dev/) implementation
 
 # Add it to your project
-Every VkParser release is published to the Maven Central Repository. You can just download .jar package or add a dependency from your project as follows.
+Every VK-API-Core release is published to the Maven Central Repository. You can just download .jar package or add a dependency from your project as follows.
 (Note: 0.1.0 is the latest stable version as of the latest edit on this page.)
 
 ## Plain-old JAR
