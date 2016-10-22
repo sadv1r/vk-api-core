@@ -34,7 +34,7 @@ dependencies {
 }
 ```
 
-## Support on Beerpay
+# Support on Beerpay
 Hey dude! Help me out for a couple of :beers:!
 
 [![Beerpay](https://beerpay.io/sadv1r/vk-parser/badge.svg?style=beer-square)](https://beerpay.io/sadv1r/vk-parser)  [![Beerpay](https://beerpay.io/sadv1r/vk-parser/make-wish.svg?style=flat-square)](https://beerpay.io/sadv1r/vk-parser?focus=wish)
