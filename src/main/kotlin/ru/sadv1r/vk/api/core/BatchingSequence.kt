@@ -1,4 +1,4 @@
-package ru.sadv1r.vk.parser
+package ru.sadv1r.vk.api.core
 
 /**
  * Функция для деления [последовательности][kotlin.sequences.Sequence] Sequence на части нужного размера.
@@ -11,7 +11,7 @@ package ru.sadv1r.vk.parser
  */
 
 fun <T> Sequence<T>.batch(n: Int): Sequence<List<T>> {
-    return BatchingSequence(this, n)
+    return ru.sadv1r.vk.api.core.BatchingSequence(this, n)
 }
 
 private class BatchingSequence<out T>(val source: Sequence<T>, val batchSize: Int) : Sequence<List<T>> {

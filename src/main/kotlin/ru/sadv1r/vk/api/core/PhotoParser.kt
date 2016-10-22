@@ -1,11 +1,12 @@
-package ru.sadv1r.vk.parser
+package ru.sadv1r.vk.api.core
 
+import com.fasterxml.jackson.core.JsonPointer
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.slf4j.LoggerFactory
-import ru.sadv1r.vk.parser.model.Album
-import ru.sadv1r.vk.parser.model.Photo
+import ru.sadv1r.vk.api.core.model.Album
+import ru.sadv1r.vk.api.core.model.Photo
 
 /**
  * Парсер фотографий и альбомов Вконтакте
@@ -15,7 +16,7 @@ import ru.sadv1r.vk.parser.model.Photo
  * @author sadv1r
  * @version 0.1
  */
-class PhotoParser: Parser() {
+open class PhotoParser: Parser() {
     private val logger = LoggerFactory.getLogger(PhotoParser::class.java)
 
     /**
@@ -46,6 +47,12 @@ class PhotoParser: Parser() {
 
         return result
     }
+//    private fun getAlbums(jsonNode: JsonNode): List<Album> {
+//        val jsonPointer: JsonPointer = JsonPointer.valueOf("/response/items")
+//        val result: List<Album> = getParsableVkObjects<Album>(jsonNode, jsonPointer) as List<Album>
+//        println(result)
+//        return result
+//    }
 
     /**
      * Получает фотографии пользователя

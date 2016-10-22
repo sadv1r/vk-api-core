@@ -1,11 +1,13 @@
-package ru.sadv1r.vk.parser
+package ru.sadv1r.vk.api.core
 
 import com.fasterxml.jackson.core.JsonPointer
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import org.slf4j.LoggerFactory
-import ru.sadv1r.vk.parser.FriendsParser.NameCase.*
-import ru.sadv1r.vk.parser.FriendsParser.Order.*
-import ru.sadv1r.vk.parser.model.Profile
+import ru.sadv1r.vk.api.core.FriendsParser.NameCase.*
+import ru.sadv1r.vk.api.core.FriendsParser.Order.*
+import ru.sadv1r.vk.api.core.model.Profile
 
 /**
  * Парсер друзей пользователя Вконтакте.
@@ -100,20 +102,13 @@ class FriendsParser(accessToken: String? = null) : Parser(accessToken) {
      * @return [List] друзей пользователя.
      */
     private fun getFriends(jsonNode: JsonNode): List<Int> {
-        val result: List<Int> = getParsableVkObjects(jsonNode, getFriendsResponseItemsJsonPointer)
-
-        logger.trace("Получен профиль: {}", result)
-
-        return result
-    }
-    /*private fun getFriends(jsonNode: JsonNode): List<Int> {
     val result: List<Int> = jacksonObjectMapper()
             .readValue(jsonNode.get("response").get("items").toString())
 
     logger.trace("Получен профиль: {}", result)
 
     return result
-    }*/
+    }
 
 
     /**
@@ -121,20 +116,13 @@ class FriendsParser(accessToken: String? = null) : Parser(accessToken) {
      * @return [List] друзей пользователя.
      */
     private fun getFriendsProfiles(jsonNode: JsonNode): List<Profile> {
-        val result: List<Profile> = getParsableVkObjects(jsonNode, getFriendsResponseItemsJsonPointer)
-
-        logger.trace("Получен профиль: {}", result)
-
-        return result
-    }
-    /*private fun getFriendsProfiles(jsonNode: JsonNode): List<Profile> {
         val result: List<Profile> = jacksonObjectMapper()
                 .readValue(jsonNode.get("response").get("items").toString())
 
         logger.trace("Получен профиль: {}", result)
 
         return result
-    }*/
+    }
 
     /**
      * @property HINTS сортировать по рейтингу, аналогично тому, как друзья сортируются в разделе **Мои друзья**.

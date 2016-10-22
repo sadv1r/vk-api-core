@@ -1,4 +1,4 @@
-package ru.sadv1r.vk.parser
+package ru.sadv1r.vk.api.core
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext

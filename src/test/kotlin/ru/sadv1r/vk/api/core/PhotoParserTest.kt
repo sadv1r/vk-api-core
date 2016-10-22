@@ -1,20 +1,13 @@
-package ru.sadv1r.vk.parser
+package ru.sadv1r.vk.api.core
 
-//import org.junit.runner.RunWith
-//import org.mockito.Mockito
-//import org.powermock.api.mockito.PowerMockito
-//import org.powermock.core.classloader.annotations.PrepareForTest
-//import org.powermock.modules.junit4.PowerMockRunner
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import ru.sadv1r.vk.parser.exceptions.AccessDeniedException
-import ru.sadv1r.vk.parser.model.Album
-import ru.sadv1r.vk.parser.model.Error
-import ru.sadv1r.vk.parser.model.Photo
+import ru.sadv1r.vk.api.core.model.Album
+import ru.sadv1r.vk.api.core.model.Photo
 import java.sql.Timestamp
 import java.util.*
 import kotlin.reflect.functions
@@ -27,8 +20,6 @@ import kotlin.reflect.jvm.isAccessible
  *
  * @version 0.1
  */
-//@RunWith(PowerMockRunner::class)
-//@PrepareForTest(PhotoParser::class)
 class PhotoParserTest {
     lateinit var photoParser: PhotoParser
 
@@ -52,15 +43,7 @@ class PhotoParserTest {
         expected.add(Album(207791859, 1, "Instagram", Timestamp(1418078972000), Timestamp(1418078972000), 0))
         expected.add(Album(136592355, 1, "Здесь будут новые фотографии для прессы-службы", Timestamp(1307628778000), Timestamp(1418772499000), 9))
 
-/*TODO! Исправить, когда в Kotlin появится поддержка PowerMockito или аналог. Пока тестируем через Reflection
-        val mockRealm = PowerMockito.mock(PhotoParser::class.java)
-
-        Mockito.`when`(mockRealm.getResponseTree("photos.getAlbums", "&owner_id=1")).thenReturn(node)
-        val actual = mockRealm.getAlbums(1)
-
-        assertEquals(expected, actual)
-*/
-
+//TODO! Исправить, когда в Kotlin появится поддержка PowerMockito или аналог. Пока тестируем через Reflection
 /*Часть, необходимая для отладки Reflection
         PhotoParser::class.functions.find {
             it.name.equals("getAlbums") && it.parameters[1].name.equals("jsonNode")

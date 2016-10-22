@@ -1,11 +1,11 @@
-package ru.sadv1r.vk.parser
+package ru.sadv1r.vk.api.core
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.junit.*
 import org.junit.Assert.*
 import org.junit.Assume.*
-import ru.sadv1r.vk.parser.exceptions.VkException
+import ru.sadv1r.vk.api.core.exceptions.VkException
 
 /**
  * Created on 4/4/16.
@@ -71,17 +71,6 @@ class ParserTest {
 
         assertTrue("Получено неверное дерево с ответом на запрос с параметрами в мапе", actual.get("type").isTextual)
         assertTrue("Получено неверное дерево с ответом на запрос с параметрами в мапе", actual.get("object_id").isInt)
-    }
-
-    @Test
-    fun getExecuteResponseTree() {
-        assumeTrue("Ключ авторизации не указан", System.getProperties().containsKey("accessToken"))
-
-        parser = object : Parser(System.getProperty("accessToken")) {}
-        val code = "return API.users.get({user_ids:\"sadv1r\"});"
-        val actual: JsonNode = parser.getExecuteResponseTree(code)
-
-        assertTrue("Получено неверное дерево с ответом на запрос", actual.get("response").get(0).get("id").isInt)
     }
 
     @Test

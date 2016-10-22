@@ -1,5 +1,5 @@
 group 'ru.sadv1r.vk'
-version '0.1.0'
+version '0.1.1'
 
 buildscript {
     ext.kotlin_version = '1.0.4'
@@ -80,17 +80,15 @@ githubPages {
         from 'build/dokka/style.css'
     }
 }
-//publishing {
-//    publications {
-//        maven(MavenPublication) {
-//            from components.java
-//
-//            artifact sourceJar {
-//                classifier "sources"
-//            }
-//        }
-//    }
-//}
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+
+
+        }
+    }
+}
 
 
 

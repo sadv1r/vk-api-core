@@ -1,4 +1,4 @@
-package ru.sadv1r.vk.parser
+package ru.sadv1r.vk.api.core
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail

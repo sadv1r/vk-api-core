@@ -1,22 +1,25 @@
-package ru.sadv1r.vk.parser
+package ru.sadv1r.vk.api.core
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.core.JsonPointer
+import com.fasterxml.jackson.databind.JavaType
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.slf4j.LoggerFactory
-import ru.sadv1r.vk.parser.Parser.ResolveScreenNameResult.Type.*
-import ru.sadv1r.vk.parser.exceptions.AccessDeniedException
-import ru.sadv1r.vk.parser.exceptions.VkException
-import ru.sadv1r.vk.parser.exceptions.WrongScreenNameException
-import ru.sadv1r.vk.parser.model.Error
+import ru.sadv1r.vk.api.core.Parser.ResolveScreenNameResult.Type.*
+import ru.sadv1r.vk.api.core.exceptions.AccessDeniedException
+import ru.sadv1r.vk.api.core.exceptions.VkException
+import ru.sadv1r.vk.api.core.exceptions.WrongScreenNameException
+import ru.sadv1r.vk.api.core.model.Error
+import ru.sadv1r.vk.api.core.model.Profile
 import java.io.BufferedReader
 import java.io.DataOutputStream
 import java.io.InputStreamReader
 import java.net.URL
 import java.nio.charset.Charset
 import javax.net.ssl.HttpsURLConnection
+import kotlin.reflect.jvm.internal.impl.types.KotlinType
 
 /**
  * Базовый класс для всех парсеров Вконтакте.
@@ -48,7 +51,7 @@ abstract class Parser(val accessToken: String? = null) {
     } //TODO Заменить на URL()
 
     /**
-     * Получает дерево с ответом API Вконтакте.
+     * Получает дерево с ответом API Вконтакте и проверяет, успешность выполнения.
      *
      * @param method название метода API Вконтакте.
      * @param args аргументы для запроса к методу API Вконтакте.
@@ -57,9 +60,17 @@ abstract class Parser(val accessToken: String? = null) {
     fun getResponseTree(method: String, args: String = ""): JsonNode {
         logger.trace("Запуск метода getResponseTree(String, String)")
 
-        val apiUrlString = apiUrlTemplate(method, args)
-        val apiUrl = URL(apiUrlString)
-        val responseTree = jacksonObjectMapper().readTree(apiUrl)
+        var responseTree: JsonNode
+
+        if (args.length > 1000) {
+            responseTree = getResponseTreeByPostRequest(method, args)
+        } else {
+            val apiUrlString = apiUrlTemplate(method, args)
+            val apiUrl = URL(apiUrlString)
+
+            responseTree = jacksonObjectMapper().readTree(apiUrl)
+        }
+
         logger.trace("Ответ от VK API получен: {}", responseTree)
 
         if (responseTree.has("error")) {
@@ -88,32 +99,26 @@ abstract class Parser(val accessToken: String? = null) {
     }
 
     /**
-     * Получает дерево с ответом API Вконтакте.
+     * Получает дерево с ответом API Вконтакте POST-запросом.
      *
-     * @param code код алгоритма в **VKScript** - формате, похожем на **JavaSсript** или **ActionScript**
-     * (предполагается совместимость с **ECMAScript**).
-     * Алгоритм должен завершаться командой **return** **%выражение%**.
-     * Операторы должны быть разделены точкой с запятой.
+     * @param method название метода API Вконтакте.
+     * @param args аргументы для запроса к методу API Вконтакте.
      * @return [JsonNode] с деревом ответа.
      */
-    fun getExecuteResponseTree(code: String): JsonNode {
-        logger.trace("Запуск метода getExecuteResponseTree(String)")
+    private fun getResponseTreeByPostRequest(method: String, args: String): JsonNode {
+        logger.trace("Запуск метода getResponseTreeByPostRequest(String, String)")
 
-        val conn = URL(apiUrlTemplate("execute")).openConnection() as HttpsURLConnection
+        val conn = URL(apiUrlTemplate(method)).openConnection() as HttpsURLConnection
         conn.requestMethod = "POST"
         conn.doOutput = true
 
         val dataOutputStream = DataOutputStream(conn.outputStream)
-        val arguments: ByteArray = "&code=$code".toByteArray(Charset.defaultCharset())
+        val arguments: ByteArray = args.toByteArray(Charset.defaultCharset())
         dataOutputStream.write(arguments)
 
         val bufferedReader = BufferedReader(InputStreamReader(conn.inputStream))
 
         val responseTree = jacksonObjectMapper().readTree(bufferedReader)
-
-        if (responseTree.has("error")) {
-            errorHandler(responseTree)
-        }
 
         return responseTree
     }
@@ -194,11 +199,4 @@ abstract class Parser(val accessToken: String? = null) {
 
         return ResolveScreenNameResult(result.type, result.objectId)
     }
-
-    /**
-     * @param jsonNode дерево ответа API Вконтакте.
-     * @return [List] объектов Вконтакте.
-     */
-    fun <DataObject> getParsableVkObjects(jsonNode: JsonNode, pointer: JsonPointer): List<DataObject> =
-            jacksonObjectMapper().readValue(jsonNode.at(pointer).toString())
 }

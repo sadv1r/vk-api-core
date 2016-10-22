@@ -1,9 +1,9 @@
-package ru.sadv1r.vk.parser.model
+package ru.sadv1r.vk.api.core.model
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import ru.sadv1r.vk.parser.UnixTimestampDeserializer
+import ru.sadv1r.vk.api.core.UnixTimestampDeserializer
 import java.sql.Timestamp
 
 /**

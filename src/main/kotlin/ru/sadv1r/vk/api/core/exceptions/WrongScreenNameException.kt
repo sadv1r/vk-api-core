@@ -1,6 +1,6 @@
-package ru.sadv1r.vk.parser.exceptions
+package ru.sadv1r.vk.api.core.exceptions
 
-import ru.sadv1r.vk.parser.model.Error
+import ru.sadv1r.vk.api.core.model.Error
 
 /**
  * Означает, что короткое имя не существует

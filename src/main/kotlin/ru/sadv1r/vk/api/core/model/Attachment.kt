@@ -1,4 +1,4 @@
-package ru.sadv1r.vk.parser.model
+package ru.sadv1r.vk.api.core.model
 
 /**
  * Обозначает медиавложение Вконтакте
